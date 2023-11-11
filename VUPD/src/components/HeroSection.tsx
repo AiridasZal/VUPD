@@ -7,15 +7,21 @@ import {
   Image,
   useColorModeValue,
   Stack,
+  useBreakpointValue,
+  StackDirection,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import heroImage from "../assets/Hero.svg";
 
 const HeroSection = () => {
+  const stackDirection = useBreakpointValue({
+    base: "column",
+    sm: "row",
+  }) as StackDirection;
   return (
     <Box
       as="section"
-      bg={useColorModeValue("gray.50", "gray.800")}
+      bg={useColorModeValue("gray.50", "gray.900")}
       pt={10}
       pb={24}
     >
@@ -47,8 +53,8 @@ const HeroSection = () => {
             on university subjects. Use shared experiences and machine learning
             to choose a subject that's the best for you!
           </Text>
-          <Stack direction="row" spacing={4} align="center">
-            <Button as={Link} to="/login" size="lg" colorScheme="blue" mt={8}>
+          <Stack direction={stackDirection} spacing={4} mt={8}>
+            <Button as={Link} to="/login" size="lg" colorScheme="blue">
               Join Now
             </Button>
             <Button
@@ -57,7 +63,6 @@ const HeroSection = () => {
               size="lg"
               colorScheme="blue"
               variant="outline"
-              mt={8}
             >
               View Courses
             </Button>
