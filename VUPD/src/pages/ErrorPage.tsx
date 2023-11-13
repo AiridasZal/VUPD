@@ -1,7 +1,8 @@
 import { Button } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ErrorPage = () => {
+  const navigate = useNavigate();
   return (
     <div className="grid h-screen px-4 bg-white place-content-center">
       <div className="text-center">
@@ -29,8 +30,8 @@ const ErrorPage = () => {
         </h1>
 
         <p className="my-4 text-gray-500">We can't find that page.</p>
-        <Button as={Link} to="/" colorScheme="red">
-          Go Back Home
+        <Button colorScheme="red" onClick={() => navigate(-1)}>
+          Go Back
         </Button>
       </div>
     </div>
