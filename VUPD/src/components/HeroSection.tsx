@@ -24,6 +24,7 @@ const HeroSection = () => {
       bg={useColorModeValue("gray.50", "gray.900")}
       pt={10}
       pb={24}
+      maxW="full"
     >
       <Flex
         direction={{ base: "column", md: "row" }}

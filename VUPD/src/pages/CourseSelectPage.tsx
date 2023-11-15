@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useCourse } from "../hooks/useCourse";
-import { Box, Heading, List, ListItem, Text } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Box, Heading, List, ListItem, Text, Link } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
 
 const CourseSelectPage = () => {
   const { slug, program } = useParams();
@@ -16,12 +16,12 @@ const CourseSelectPage = () => {
       </Heading>
       {subjects.results.map((year) => (
         <Box key={year.name} ml={4}>
-          <Heading as="h2" size="lg" fontWeight="semibold">
+          <Heading as="h2" size="lg" fontWeight="semibold" py={4}>
             {year.name}
           </Heading>
           {year.semesters.map((semester) => (
             <Box key={semester.name} ml={4}>
-              <Heading as="h3" size="md" fontWeight="semibold">
+              <Heading as="h3" size="md" fontWeight="semibold" py={2}>
                 {semester.name}
               </Heading>
               <List spacing={3} ml={4}>
@@ -30,7 +30,11 @@ const CourseSelectPage = () => {
                 ) : (
                   semester.subjects.map((subject) => (
                     <ListItem key={subject.name}>
-                      <Link to={`/courses/${slug}/${program}/${subject.slug}`}>
+                      <Link
+                        as={RouterLink}
+                        to={`/courses/${slug}/${program}/${subject.slug}`}
+                        color="blue.500"
+                      >
                         {subject.name}
                       </Link>
                     </ListItem>

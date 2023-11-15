@@ -18,7 +18,7 @@ const CourseDetailPage = () => {
         <Text fontSize="2xl" fontWeight="bold" color="gray.900">
           {courseData.name}
         </Text>
-        <Text fontWeight="semibold">Coordinators:</Text>
+        <Text fontWeight="semibold">Lecturers:</Text>
         <Text>{courseData.coordinators.join(", ")}</Text>
         <Text fontWeight="semibold">Summary:</Text>
         <Text>{courseData.summary}</Text>

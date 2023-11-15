@@ -67,7 +67,7 @@ const NavBar = () => {
 
         {/* CTA Button */}
         <Flex display={{ base: "none", md: "flex" }} alignItems={"center"}>
-          <Button as={Link} to="/login" variant="solid" colorScheme="teal">
+          <Button as={Link} to="/login" variant="solid" colorScheme="green">
             Log In
           </Button>
         </Flex>
@@ -96,7 +96,7 @@ const NavBar = () => {
                 </Button>
               </VStack>
               {/* Log In CTA */}
-              <Button as={Link} to="/login" colorScheme="teal" w="full">
+              <Button as={Link} to="/login" colorScheme="green" w="full">
                 Log In
               </Button>
             </Stack>
