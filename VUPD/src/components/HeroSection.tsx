@@ -18,6 +18,7 @@ const HeroSection = () => {
     base: "column",
     sm: "row",
   }) as StackDirection;
+
   return (
     <Box
       as="section"
@@ -55,9 +56,6 @@ const HeroSection = () => {
             to choose a subject that's the best for you!
           </Text>
           <Stack direction={stackDirection} spacing={4} mt={8}>
-            <Button as={Link} to="/login" size="lg" colorScheme="blue">
-              Join Now
-            </Button>
             <Button
               as={Link}
               to="/courses"

@@ -16,9 +16,13 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import LoginButton from "./LoginButton";
+import LogoutButton from "./LogoutButton";
 
 const NavBar = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
+
+
 
   return (
     <Box bg={useColorModeValue("white", "gray.900")} px={4}>
@@ -67,9 +71,9 @@ const NavBar = () => {
 
         {/* CTA Button */}
         <Flex display={{ base: "none", md: "flex" }} alignItems={"center"}>
-          <Button as={Link} to="/login" variant="solid" colorScheme="green">
-            Log In
-          </Button>
+
+          <LoginButton />
+          <LogoutButton />
         </Flex>
       </Flex>
 
@@ -96,9 +100,8 @@ const NavBar = () => {
                 </Button>
               </VStack>
               {/* Log In CTA */}
-              <Button as={Link} to="/login" colorScheme="green" w="full">
-                Log In
-              </Button>
+              <LoginButton />
+              <LogoutButton />
             </Stack>
           </DrawerBody>
         </DrawerContent>
