@@ -16,13 +16,20 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import ColorModeSwitch from "./ColorModeSwitch";
 
 const NavBar = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   return (
     <Box bg={useColorModeValue("white", "gray.900")} px={4}>
-      <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
+      <Flex
+        h={16}
+        alignItems={"center"}
+        justifyContent={"space-between"}
+        maxW={"6xl"}
+        mx={"auto"}
+      >
         {/* Mobile menu button */}
         <IconButton
           size={"md"}
@@ -64,7 +71,10 @@ const NavBar = () => {
             </Button>
           </Stack>
         </Flex>
-
+        {/* Color Mode Switch */}
+        <Box mr={{ base: "0", md: "4" }}>
+          <ColorModeSwitch />
+        </Box>
         {/* CTA Button */}
         <Flex display={{ base: "none", md: "flex" }} alignItems={"center"}>
           <Button as={Link} to="/login" variant="solid" colorScheme="green">

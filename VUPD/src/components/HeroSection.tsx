@@ -9,6 +9,7 @@ import {
   Stack,
   useBreakpointValue,
   StackDirection,
+  useColorMode,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import heroImage from "../assets/Hero.svg";
@@ -18,12 +19,14 @@ const HeroSection = () => {
     base: "column",
     sm: "row",
   }) as StackDirection;
+
+  const { colorMode } = useColorMode();
   return (
     <Box
       as="section"
       bg={useColorModeValue("gray.50", "gray.900")}
       pt={10}
-      pb={24}
+      pb={10}
       maxW="full"
     >
       <Flex
@@ -78,10 +81,9 @@ const HeroSection = () => {
             fit="cover"
             w="full"
             h={{ base: 64, md: "full" }}
-            bg="gray.100"
             loading="lazy"
             sx={{
-              mixBlendMode: "multiply",
+              mixBlendMode: colorMode === "light" ? "multiply" : "none",
             }}
           />
         </Box>
