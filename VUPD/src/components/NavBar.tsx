@@ -17,9 +17,13 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import ColorModeSwitch from "./ColorModeSwitch";
+import LoginButton from "./LoginButton";
+import LogoutButton from "./LogOutButton";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const NavBar = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const { isAuthenticated } = useAuth0();
 
   return (
     <Box bg={useColorModeValue("white", "gray.900")} px={4}>
@@ -77,9 +81,8 @@ const NavBar = () => {
         </Box>
         {/* CTA Button */}
         <Flex display={{ base: "none", md: "flex" }} alignItems={"center"}>
-          <Button as={Link} to="/login" variant="solid" colorScheme="green">
-            Log In
-          </Button>
+          {!isAuthenticated && <LoginButton />}
+          {isAuthenticated && <LogoutButton />}
         </Flex>
       </Flex>
 
@@ -106,9 +109,8 @@ const NavBar = () => {
                 </Button>
               </VStack>
               {/* Log In CTA */}
-              <Button as={Link} to="/login" colorScheme="green" w="full">
-                Log In
-              </Button>
+              {!isAuthenticated && <LoginButton width="full" />}
+              {isAuthenticated && <LogoutButton />}
             </Stack>
           </DrawerBody>
         </DrawerContent>
