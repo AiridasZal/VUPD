@@ -18,7 +18,8 @@ public class HelloWorldApplication {
         PORT,
         CLIENT_ORIGIN_URL,
         OKTA_OAUTH2_ISSUER,
-        OKTA_OAUTH2_AUDIENCE
+        OKTA_OAUTH2_AUDIENCE,
+        MONGODB_URI
     }
 
     public static void main(final String[] args) {

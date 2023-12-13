@@ -21,6 +21,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain httpSecurity(final HttpSecurity http) throws Exception {
         return http
+                .csrf().disable()
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/messages/protected", "/api/messages/admin").authenticated()
                         .anyRequest().permitAll())
