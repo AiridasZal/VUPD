@@ -1,6 +1,7 @@
 import { Box, Button, Text } from "@chakra-ui/react";
 import { Link, useParams } from "react-router-dom";
 import { courseDetails, CourseDetailResult } from "../data/courseDetails";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const CourseDetailPage = () => {
   const { slug, program, course } = useParams();
@@ -8,6 +9,8 @@ const CourseDetailPage = () => {
   const courseData: CourseDetailResult | undefined = courseDetails.results.find(
     (course) => course.slug === courseSlug
   );
+  const { isAuthenticated } = useAuth0();
+
   if (!courseData) {
     return <div>Course not found</div>;
   }
@@ -22,14 +25,15 @@ const CourseDetailPage = () => {
         <Text>{courseData.coordinators.join(", ")}</Text>
         <Text fontWeight="semibold">Summary:</Text>
         <Text>{courseData.summary}</Text>
-
-        <Button
-          as={Link}
-          to={`/courses/${slug}/${program}/${course}/review`}
-          colorScheme="green"
-        >
-          Review course
-        </Button>
+        {isAuthenticated && (
+          <Button
+            as={Link}
+            to={`/courses/${slug}/${program}/${course}/review`}
+            colorScheme="green"
+          >
+            Review course
+          </Button>
+        )}
       </Box>
     </>
   );

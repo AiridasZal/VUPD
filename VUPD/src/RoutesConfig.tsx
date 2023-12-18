@@ -1,20 +1,21 @@
 import { Route, Routes } from "react-router-dom";
-import Layout from "./pages/Layout";
-import HomePage from "./pages/HomePage";
 import CallBackPage from "./pages/CallBackPage";
+import HomePage from "./pages/HomePage";
+import Layout from "./pages/Layout";
 import ProfilePage from "./pages/ProfilePage";
-import AdminPage from "./pages/AdminPage";
-import ProtectedPage from "./pages/ProtectedPage";
-import PublicPage from "./pages/PublicPage";
-import FacultySelectPage from "./pages/FacultySelectPage";
-import ProgramSelectPage from "./pages/ProgramSelectPage";
-import CourseSelectPage from "./pages/CourseSelectPage";
-import CourseDetailPage from "./pages/CourseDetailPage";
-import CourseReviewPage from "./pages/CourseReviewPage";
-import ErrorPage from "./pages/ErrorPage";
+// import AdminPage from "./pages/AdminPage";
+// import ProtectedPage from "./pages/ProtectedPage";
+import { useAuth0 } from "@auth0/auth0-react";
 import { AuthenticationGuard } from "./components/AuthenticationGuard";
 import PageLoader from "./components/PageLoader";
-import { useAuth0 } from "@auth0/auth0-react";
+import BrowsePage from "./pages/BrowsePage";
+import CourseDetailPage from "./pages/CourseDetailPage";
+import CourseReviewPage from "./pages/CourseReviewPage";
+import CourseSelectPage from "./pages/CourseSelectPage";
+import ErrorPage from "./pages/ErrorPage";
+import FacultySelectPage from "./pages/FacultySelectPage";
+import ProgramSelectPage from "./pages/ProgramSelectPage";
+import PublicPage from "./pages/PublicPage";
 // Import other components as needed
 
 const RoutesConfig = () => {
@@ -30,14 +31,15 @@ const RoutesConfig = () => {
           path="testing/profile"
           element={<AuthenticationGuard component={ProfilePage} />}
         />
-        <Route
+        {/* <Route
           path="testing/admin"
           element={<AuthenticationGuard component={AdminPage} />}
         />
         <Route
           path="testing/protected"
           element={<AuthenticationGuard component={ProtectedPage} />}
-        />
+        /> */}
+        <Route path="browse" element={<BrowsePage />} />
         <Route path="testing/public" element={<PublicPage />} />
         <Route path="courses" element={<FacultySelectPage />} />
         <Route path="courses/:slug" element={<ProgramSelectPage />} />
