@@ -8,18 +8,36 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Document(collection = "Fakultetas")
+@Document(collection = "subjects")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Fakultetas {
+public class Subject {
 
     @Id
 
     private String id;
 
+    private String faculty;
+
+    private String course;
+
+    private int year;
+
+    private int semester;
+
     private String name;
 
-    private String slug;
+    private int credits;
+
+    private int hours;
+
+    private String language;
+
+    private String lecturer;
+
+    private String summary;
+
+    private String link;
 }

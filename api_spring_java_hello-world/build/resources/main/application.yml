@@ -1,5 +1,4 @@
 ---
-
 application:
   client-origin-url: ${CLIENT_ORIGIN_URL}
 
@@ -17,9 +16,7 @@ spring:
       add-mappings: false
   data:
     mongodb:
-      host: localhost
-      port: 27017
-      database: VUDB
+      uri: ${MONGODB_URI}
 
 okta:
   oauth2:
@@ -29,4 +26,3 @@ okta:
 logging:
   level:
     org.springframework.security: DEBUG
-...

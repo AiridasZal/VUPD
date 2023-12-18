@@ -8,22 +8,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Document(collection = "Balsai")
+@Document(collection = "courses")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Balsai {
+public class Course {
 
     @Id
 
     private String id;
 
-    private String courseid;
+    private String name;
 
-    private String categoryid;
+    private String slug;
 
-    private String userid;
+    private String facultyId;
 
-    private int rating;
+    private int years;
 }

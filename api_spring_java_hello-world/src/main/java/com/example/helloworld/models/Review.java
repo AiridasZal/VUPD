@@ -8,20 +8,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Document(collection = "Programa")
+@Document(collection = "reviews")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Programa {
+public class Review {
 
     @Id
-
+    
     private String id;
 
-    private String name;
+    private String courseId;
 
-    private String slug;
+    private String userId;
 
-    private String facultyid;
+    private String review;
+
+    private int upvotes;
+
+    private int downvotes;
 }

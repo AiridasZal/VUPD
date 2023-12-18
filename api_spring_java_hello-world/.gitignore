@@ -1,11 +1,13 @@
-HELP.md
-.gradle
-build/
+# Gradle files
+.gradle/
 !gradle/wrapper/gradle-wrapper.jar
+
+# Gradle build directories
+build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### STS ###
+# STS (Spring Tool Suite)
 .apt_generated
 .classpath
 .factorypath
@@ -13,28 +15,29 @@ build/
 .settings
 .springBeans
 .sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
 
-### IntelliJ IDEA ###
-.idea
+# IntelliJ IDEA files
+.idea/
 *.iws
 *.iml
 *.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
 
-### NetBeans ###
+# NetBeans files
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
 
-### VS Code ###
+# VS Code files
 .vscode/
 
-### 12 Factor ###
+# Miscellaneous files
+HELP.md
+*.log
+*.bin
+*.lock
+*file-system.probe
+
+# 12 Factor
 .env
