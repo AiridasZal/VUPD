@@ -14,7 +14,6 @@ const CustomImage: React.FC<Props> = ({ src, alt, ...props }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const handleImageLoaded = () => {
-    console.log(`Image loaded: ${src}`);
     setIsLoaded(true);
   };
 
