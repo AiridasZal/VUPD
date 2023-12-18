@@ -1,31 +1,45 @@
 import { Flex, Select } from "@chakra-ui/react";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 import faculties from "../../data/faculties";
+import { useFacultyFilter } from "../../hooks/useFacultyFilter";
 
-const BrowseFiltersSection = () => {
-  const [selectedFaculty, setSelectedFaculty] = useState("");
-  const [selectedProgram, setSelectedProgram] = useState("");
-  const [selectedYear, setSelectedYear] = useState("");
+interface Program {
+  name: string;
+  slug: string;
+  facultyId: string;
+  years: number;
+}
 
-  const programs = ["Informacinių Sistemų Inžinerija"]; // TODO: Programs should be fetched based on the selected faculty
-  const years = ["1", "2", "3", "4"]; // TODO: Replace this with actual years
+interface Props {
+  selectedFaculty: string;
+  setSelectedFaculty: React.Dispatch<React.SetStateAction<string>>;
+  selectedProgram: string;
+  setSelectedProgram: React.Dispatch<React.SetStateAction<string>>;
+  selectedYear: string;
+  setSelectedYear: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const BrowseFiltersSection = ({
+  selectedFaculty,
+  setSelectedFaculty,
+  selectedProgram,
+  setSelectedProgram,
+  selectedYear,
+  setSelectedYear,
+}: Props) => {
+  const { data: programs, isLoading: isProgramsLoading } =
+    useFacultyFilter(selectedFaculty);
 
   function handleFacultyChange(event: ChangeEvent<HTMLSelectElement>): void {
     setSelectedFaculty(event.target.value);
-    setSelectedProgram("");
-    setSelectedYear("");
-    // TODO: implement the logic to fetch programs based on the selected faculty here
   }
 
   function handleProgramChange(event: ChangeEvent<HTMLSelectElement>): void {
     setSelectedProgram(event.target.value);
-    setSelectedYear("");
-    // TODO: implement the logic to fetch years based on the selected program here
   }
 
   function handleYearChange(event: ChangeEvent<HTMLSelectElement>): void {
     setSelectedYear(event.target.value);
-    // TODO: implement the logic to fetch courses based on the selected year here
   }
 
   return (
@@ -45,26 +59,33 @@ const BrowseFiltersSection = () => {
         placeholder="Select Program"
         onChange={handleProgramChange}
         value={selectedProgram}
-        isDisabled={!selectedFaculty}
+        isDisabled={!selectedFaculty || isProgramsLoading}
       >
-        {programs.map(
-          (
-            program,
-            index // TODO: replace with actual programs
-          ) => (
-            <option key={index} value={program}>
-              {program}
+        {isProgramsLoading ? (
+          <option>Loading programs...</option>
+        ) : (
+          programs?.map((program: Program) => (
+            <option key={program.slug} value={program.slug}>
+              {program.name}
             </option>
-          )
+          ))
         )}
       </Select>
       <Select
         placeholder="Select Year"
         onChange={handleYearChange}
         value={selectedYear}
-        isDisabled={!selectedFaculty || !selectedProgram}
+        isDisabled={!selectedProgram}
       >
-        {years.map((year) => (
+        {Array.from(
+          {
+            length:
+              programs?.find(
+                (program: Program) => program.slug === selectedProgram
+              )?.years || 0,
+          },
+          (_, i) => i + 1
+        ).map((year) => (
           <option key={year} value={year}>
             {year}
           </option>

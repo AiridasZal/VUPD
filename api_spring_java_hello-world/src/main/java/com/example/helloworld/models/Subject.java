@@ -29,9 +29,9 @@ public class Subject {
 
     private String name;
 
-    private int credits;
+    private String slug;
 
-    private int hours;
+    private int credits;
 
     private String language;
 
