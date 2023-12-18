@@ -31,9 +31,6 @@ public class SubjectsService {
 
     public List<Subject> getSubjectsByYear(final String faculty, final String course, final int year) {
         List<Subject> subjects = subjectsRepository.findByYear(faculty, course, year);
-        if (subjects.isEmpty()) {
-            throw new NotFoundException("No subjects found for faculty: " + faculty + ", course: " + course + ", year: " + year);
-        }
         return subjects;
     }
 

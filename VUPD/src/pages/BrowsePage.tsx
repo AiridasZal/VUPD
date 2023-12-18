@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
 import BrowseFiltersSection from "../components/CourseBrowsing/BrowseFiltersSection";
 import BrowseResultsSection from "../components/CourseBrowsing/BrowseResultsSection";
@@ -10,12 +10,23 @@ const BrowsePage = () => {
   const [selectedProgram, setSelectedProgram] = useState<string>("");
   const [selectedYear, setSelectedYear] = useState<string>("");
 
+  const [filtersApplied, setFiltersApplied] = useState<boolean>(false);
+
   const {
     data: subjects,
     isLoading,
     isError,
     error,
   } = useSubjects(selectedFaculty, selectedProgram, selectedYear);
+
+  useEffect(() => {
+    if (!selectedFaculty || !selectedProgram || !selectedYear) {
+      setFiltersApplied(false);
+    } else {
+      setFiltersApplied(true);
+    }
+  }, [selectedFaculty, selectedProgram, selectedYear]);
+
   return (
     <Box w="full" py={5}>
       <Flex direction="column" align="center" justify="flex-start">
@@ -39,6 +50,7 @@ const BrowsePage = () => {
               isLoading={isLoading}
               isError={isError}
               error={error}
+              filtersApplied={filtersApplied}
             />
           </SimpleGrid>
         </Box>
