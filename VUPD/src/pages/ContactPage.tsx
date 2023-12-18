@@ -1,11 +1,12 @@
-import { Box, Center, Flex, Heading, Text, useColorModeValue } from "@chakra-ui/react";
+import { Box, Center, Flex, Heading, Text, useColorModeValue, Divider } from "@chakra-ui/react";
 
 const ContactPage = () => {
     return (
         <Box p={5} h="93vh" bg={useColorModeValue("gray.50", "gray.900")}>
-            <Center as="h1" mt="7%">
+            <Center as="h1" my="4%">
                 <Heading as="h1" size="2xl">Contact Us</Heading>
             </Center >
+            <Divider />
             <Flex
                 direction={{ base: "column", md: "row" }}
                 align="center"
@@ -13,7 +14,7 @@ const ContactPage = () => {
                 wrap="wrap"
                 mx="auto"
                 maxW="6xl"
-                mt="5%"
+                mt="2%"
                 px={8}
             >
                 <Box mt="5%">
@@ -26,6 +27,9 @@ const ContactPage = () => {
                 </Box>
 
             </Flex >
+            <Center as="h1" mt="10%">
+                <Text fontStyle="italic" size="xl">For general questions and suggestions*</Text>
+            </Center >
         </Box >
     );
 };
