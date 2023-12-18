@@ -46,9 +46,7 @@ const AboutSection = () => {
             textAlign={{ base: "center", md: "left" }}
           >
             VUPD is a cutting-edge platform designed to transform the university
-            experience by empowering students with a voice. Our mission is to
-            create a transparent, data-driven space for academic feedback and
-            discovery.
+            experience by empowering students with a voice. Made by students, for the students.
           </Text>
           <Text
             fontSize="lg"
