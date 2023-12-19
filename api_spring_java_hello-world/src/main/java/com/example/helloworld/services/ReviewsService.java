@@ -1,6 +1,7 @@
 package com.example.helloworld.services;
 
 import java.util.List;
+import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.helloworld.exceptions.NotFoundException;
@@ -20,6 +21,8 @@ public class ReviewsService {
         if (existingReview != null) {
             throw new AlreadyExistsException("Review already exists for this course by the user");
         }
+
+        review.setCreatedAt(LocalDateTime.now());
         return reviewsRepository.save(review);
     }
 

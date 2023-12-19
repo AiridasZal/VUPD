@@ -8,7 +8,7 @@ import {
   VStack,
   useToast,
 } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, SetStateAction } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import StarRating from "../components/StarRating";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -21,8 +21,7 @@ const CourseReviewPage = () => {
   const toast = useToast();
   const navigate = useNavigate();
   const location = useLocation();
-  const courseData = location.state;
-
+  const courseData = location.state?.courseData;
   useEffect(() => {
     if (!courseData) {
       toast({
@@ -35,11 +34,13 @@ const CourseReviewPage = () => {
     }
   }, [courseData, navigate, toast]);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: {
+    target: { value: SetStateAction<string> };
+  }) => {
     setValue(e.target.value);
   };
 
-  const handleRatingChange = (criteria, rating) => {
+  const handleRatingChange = (criteria: string, rating: number) => {
     setRatings((prevRatings) => ({ ...prevRatings, [criteria]: rating }));
   };
 
@@ -48,7 +49,7 @@ const CourseReviewPage = () => {
     try {
       const accessToken = await getAccessTokenSilently();
       const reviewData = {
-        courseId: courseData?.id, // Replace with actual course ID key
+        courseId: courseData?.id,
         review: value,
         ratings: ratings,
       };

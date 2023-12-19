@@ -3,8 +3,10 @@ package com.example.helloworld.models;
 import java.util.Map;
 import java.util.Set;
 import java.util.HashSet;
+import java.time.LocalDateTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.CreatedDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,4 +38,7 @@ public class Review {
     private Set<String> upvotedBy = new HashSet<>();
 
     private Set<String> downvotedBy = new HashSet<>();
+
+    @CreatedDate
+    private LocalDateTime createdAt;
 }
