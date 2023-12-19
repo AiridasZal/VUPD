@@ -1,6 +1,6 @@
-import { Box, Text, Link as ChakraLink } from "@chakra-ui/react";
-import { Subject } from "../../hooks/useSubjects";
+import { Box, Link as ChakraLink, Text } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
+import { Subject } from "../../entities/subject";
 
 interface BrowseResultsSectionProps {
   subjects: Subject[];
@@ -63,6 +63,7 @@ const BrowseResultsSection = ({
                   <ChakraLink
                     as={RouterLink}
                     to={`/courses/${subject.faculty}/${subject.course}/${subject.slug}`}
+                    state={{ subjectId: subject.id, year: subject.year }}
                     color="blue.500"
                   >
                     <Text fontSize="lg" fontWeight="bold">

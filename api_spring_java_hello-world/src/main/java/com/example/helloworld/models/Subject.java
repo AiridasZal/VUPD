@@ -1,5 +1,6 @@
 package com.example.helloworld.models;
 
+import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -35,7 +36,9 @@ public class Subject {
 
     private String language;
 
-    private String lecturer;
+    private List<String> lecturers;
+
+    private List<String> lecturerEmails;
 
     private String summary;
 

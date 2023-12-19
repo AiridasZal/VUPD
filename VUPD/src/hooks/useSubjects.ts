@@ -1,20 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-
-export interface Subject {
-  id: string;
-  faculty: string;
-  course: string;
-  year: string;
-  semester: string;
-  name: string;
-  slug: string;
-  credits: number;
-  language: string;
-  lecturer: string;
-  summary: string;
-  link: string;
-}
+import { Subject } from "../entities/subject";
 
 const getSubjects = async (
   facultySlug: string,
