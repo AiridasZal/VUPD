@@ -25,7 +25,6 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { SetStateAction, useEffect, useState } from "react";
 import {
-  Link,
   Link as RouterLink,
   useLocation,
   useNavigate,
@@ -37,12 +36,14 @@ import { Review } from "../entities/review";
 import { useCourseReviews } from "../hooks/useCourseReviews";
 import { useSubjectDetails } from "../hooks/useSubjectDetails";
 import { FaBook } from "react-icons/fa6";
+import { Select } from "@chakra-ui/react";
 
 const CourseDetailPage = () => {
   const bgColor = useColorModeValue("gray.50", "gray.700");
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedReviewId, setSelectedReviewId] = useState<string | null>(null);
   const [reviewed, setReviewed] = useState<boolean>(false);
+  const [sortType, setSortType] = useState("newest");
 
   const openDeleteModal = (reviewId: SetStateAction<string | null>) => {
     setSelectedReviewId(reviewId);
@@ -167,6 +168,12 @@ const CourseDetailPage = () => {
     });
   }
 
+  const handleSortChange = (event: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    setSortType(event.target.value);
+  };
+
   return (
     <Box w="full" py={5}>
       <Flex direction="column" align="center" justify="flex-start">
@@ -182,7 +189,7 @@ const CourseDetailPage = () => {
           <HStack spacing={4} wrap="wrap" justify="center">
             <Tag colorScheme="green" borderRadius="full" px={3} py={1}>
               <Text fontWeight="semibold">
-                Faculty: {subjectDetails.faculty}
+                Faculty: {subjectDetails.faculty.toUpperCase()}
               </Text>
             </Tag>
             <Tag colorScheme="orange" borderRadius="full" px={3} py={1}>
@@ -279,22 +286,41 @@ const CourseDetailPage = () => {
             </Flex>
           )}
         </VStack>
-        {isLoadingReviews ?? <Box>Loading...</Box>}
-        {reviews && (
-          <>
-            <Text fontSize="2xl" mb={4} alignSelf="left">
-              Reviews
-            </Text>
-            <Reviews
-              reviews={reviews}
-              currentUserId={userId || ""}
-              onDelete={openDeleteModal}
-              onDownvote={handleDownvote}
-              onEdit={handleEdit}
-              onUpvote={handleUpvote}
-            />
-          </>
-        )}
+      </Flex>
+      <Flex direction="column" align="center" justify="flex-start">
+        <VStack align="stretch" maxW="6xl">
+          {isLoadingReviews ?? <Box>Loading...</Box>}
+          {reviews && (
+            <>
+              <HStack spacing={4} wrap="wrap" justify="space-between">
+                <Text fontSize="2xl" mb={4} justifySelf="left">
+                  Reviews
+                </Text>
+                <Box display="flex" justifyContent="flex-end" mb={4}>
+                  <Select
+                    onChange={handleSortChange}
+                    placeholder="Sort by"
+                    width="200px"
+                  >
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
+                    <option value="highestUpvote">Most Popular</option>
+                    <option value="highestDownvote">Least Popular</option>
+                  </Select>
+                </Box>
+              </HStack>
+              <Reviews
+                reviews={reviews}
+                currentUserId={userId || ""}
+                onDelete={openDeleteModal}
+                onDownvote={handleDownvote}
+                onEdit={handleEdit}
+                onUpvote={handleUpvote}
+                sortType={sortType}
+              />
+            </>
+          )}
+        </VStack>
       </Flex>
       <Modal isOpen={isDeleteModalOpen} onClose={closeDeleteModal} isCentered>
         <ModalOverlay />

@@ -10,5 +10,5 @@ export interface Review {
   downvotes: number;
   upvotedBy: string[];
   downvotedBy: string[];
-  createdAt?: Date;
+  createdAt: Date;
 }
