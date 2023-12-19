@@ -54,7 +54,8 @@ public class ReviewsController {
     }
 
     @PostMapping("/vote/{reviewId}")
-    public ResponseEntity<Review> voteReview(@PathVariable String reviewId, @RequestParam boolean upvote, @RequestBody String userId) {
+    public ResponseEntity<Review> voteReview(@PathVariable String reviewId, @RequestParam boolean upvote) {
+        String userId = SecurityUtils.getCurrentUserId();
         Review votedReview = upvote ? reviewsService.upvoteReview(reviewId, userId) : reviewsService.downvoteReview(reviewId, userId);
         return new ResponseEntity<>(votedReview, HttpStatus.OK);
     }
