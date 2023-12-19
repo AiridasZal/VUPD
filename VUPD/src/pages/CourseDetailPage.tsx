@@ -25,6 +25,7 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { SetStateAction, useEffect, useState } from "react";
 import {
+  Link,
   Link as RouterLink,
   useLocation,
   useNavigate,
@@ -35,6 +36,7 @@ import SubjectRating from "../components/SubjectDetails/SubjectRating";
 import { Review } from "../entities/review";
 import { useCourseReviews } from "../hooks/useCourseReviews";
 import { useSubjectDetails } from "../hooks/useSubjectDetails";
+import { FaBook } from "react-icons/fa6";
 
 const CourseDetailPage = () => {
   const bgColor = useColorModeValue("gray.50", "gray.700");
@@ -131,10 +133,7 @@ const CourseDetailPage = () => {
         },
       });
       closeDeleteModal();
-      selectedReviewId &&
-        queryClient.invalidateQueries({
-          queryKey: ["courseReviews", selectedReviewId],
-        });
+      queryClient.invalidateQueries("courseReviews");
     } catch (error) {
       console.error("Error deleting review:", error);
     }
@@ -153,10 +152,7 @@ const CourseDetailPage = () => {
           },
         }
       );
-      selectedReviewId &&
-        queryClient.invalidateQueries({
-          queryKey: ["courseReviews", selectedReviewId],
-        });
+      queryClient.invalidateQueries("courseReviews");
     } catch (error) {
       console.error("Error voting on review:", error);
     }
@@ -175,9 +171,14 @@ const CourseDetailPage = () => {
     <Box w="full" py={5}>
       <Flex direction="column" align="center" justify="flex-start">
         <VStack spacing={4} align="stretch" m={5} maxW="6xl">
-          <Text fontSize="3xl" fontWeight="bold">
-            {subjectDetails.name}
-          </Text>
+          <HStack spacing={4} wrap="wrap">
+            <Text fontSize="3xl" fontWeight="bold">
+              {subjectDetails.name}
+            </Text>
+            <ChakraLink as={RouterLink} to={subjectDetails.link} isExternal>
+              <FaBook size={24} />
+            </ChakraLink>
+          </HStack>
           <HStack spacing={4} wrap="wrap" justify="center">
             <Tag colorScheme="green" borderRadius="full" px={3} py={1}>
               <Text fontWeight="semibold">
