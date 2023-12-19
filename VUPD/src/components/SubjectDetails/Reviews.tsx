@@ -1,4 +1,4 @@
-import { Box, Text, Flex, IconButton } from "@chakra-ui/react";
+import { Box, Text, Flex, IconButton, Spacer } from "@chakra-ui/react";
 import { FaThumbsUp, FaThumbsDown, FaEdit, FaTrash } from "react-icons/fa";
 
 interface Review {
@@ -32,7 +32,7 @@ const Reviews = ({
     <Box maxW="6xl" w="100%">
       {reviews.map((review, index) => (
         <Box key={index} mb={4} p={4} borderWidth="1px" borderRadius="lg">
-          <Flex justifyContent="space-between">
+          <Flex justifyContent="space-between" mb={2}>
             <Text fontWeight="bold">Anonymous</Text>
             {isAuthor(review.userId) && (
               <Flex>
@@ -50,19 +50,18 @@ const Reviews = ({
               </Flex>
             )}
           </Flex>
-          <Text mt={2}>{review.review}</Text>
-          <Flex alignItems="center">
+          <Text my={2}>{review.review}</Text>
+          <Flex justifyContent="flex-end" mt={2} align="center">
             <IconButton
               icon={<FaThumbsUp />}
               onClick={() => onUpvote(review.id)}
               mr={2}
               aria-label="Upvote"
             />
-            <Text>{review.upvotes}</Text>
+            <Text mr={2}>{review.upvotes}</Text>
             <IconButton
               icon={<FaThumbsDown />}
               onClick={() => onDownvote(review.id)}
-              ml={2}
               mr={2}
               aria-label="Downvote"
             />

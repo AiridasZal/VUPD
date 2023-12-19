@@ -21,10 +21,9 @@ import {
   Text,
   VStack,
   useColorModeValue,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import {
   Link as RouterLink,
   useLocation,
@@ -41,7 +40,7 @@ const CourseDetailPage = () => {
   const bgColor = useColorModeValue("gray.50", "gray.700");
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedReviewId, setSelectedReviewId] = useState<string | null>(null);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [reviewed, setReviewed] = useState<boolean>(false);
 
   const openDeleteModal = (reviewId: SetStateAction<string | null>) => {
     setSelectedReviewId(reviewId);
@@ -78,6 +77,16 @@ const CourseDetailPage = () => {
 
   const { data: reviews, isLoading: isLoadingReviews } =
     useCourseReviews(subjectId);
+
+  useEffect(() => {
+    if (reviews && userId) {
+      const userReview = reviews.find(
+        (review: Review) => review.userId === userId
+      );
+      setReviewed(!!userReview);
+    }
+  }, [reviews, userId]);
+
   if (!subjectDetails) return <Box>Course not found</Box>;
 
   if (isLoading) return <Box>Loading...</Box>;
@@ -164,11 +173,6 @@ const CourseDetailPage = () => {
             {subjectDetails.name}
           </Text>
           <HStack spacing={4} wrap="wrap" justify="center">
-            <Tag colorScheme="blue" borderRadius="full" px={3} py={1}>
-              <Text fontWeight="semibold">
-                Course Code: {subjectDetails.course}
-              </Text>
-            </Tag>
             <Tag colorScheme="green" borderRadius="full" px={3} py={1}>
               <Text fontWeight="semibold">
                 Faculty: {subjectDetails.faculty}
@@ -193,7 +197,7 @@ const CourseDetailPage = () => {
               </Text>
             </Tag>
           </HStack>
-          <Box p={4} borderWidth="1px" borderRadius="lg" mb={4}>
+          <Box p={4} borderWidth="1px" borderRadius="lg" mb={4} bg={bgColor}>
             <Text fontWeight="semibold" mb={2}>
               Overall Course Rating
             </Text>
@@ -203,34 +207,35 @@ const CourseDetailPage = () => {
                 ({overallScore.toFixed(2)}) ({reviewCount})
               </Text>
             </Flex>
-
-            <Accordion allowToggle mt={4}>
-              <AccordionItem>
-                <h2>
-                  <AccordionButton>
-                    <Box flex="1" textAlign="left">
-                      Detailed Ratings
-                    </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel pb={4}>
-                  <Stack spacing={4}>
-                    {Object.entries(ratingAverages).map(
-                      ([criteria, rating]) => (
-                        <Flex key={criteria} alignItems="center">
-                          <Text fontWeight="semibold" mr={2}>
-                            {criteria}
-                          </Text>
-                          <SubjectRating rating={rating} />
-                          <Text ml={2}>({rating.toFixed(2)})</Text>
-                        </Flex>
-                      )
-                    )}
-                  </Stack>
-                </AccordionPanel>
-              </AccordionItem>
-            </Accordion>
+            {reviewCount !== 0 && (
+              <Accordion allowToggle mt={4}>
+                <AccordionItem>
+                  <h2>
+                    <AccordionButton>
+                      <Box flex="1" textAlign="left">
+                        Detailed Ratings
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                  </h2>
+                  <AccordionPanel pb={4}>
+                    <Stack spacing={4}>
+                      {Object.entries(ratingAverages).map(
+                        ([criteria, rating]) => (
+                          <Flex key={criteria} alignItems="center">
+                            <Text fontWeight="semibold" mr={2}>
+                              {criteria}
+                            </Text>
+                            <SubjectRating rating={rating} />
+                            <Text ml={2}>({rating.toFixed(2)})</Text>
+                          </Flex>
+                        )
+                      )}
+                    </Stack>
+                  </AccordionPanel>
+                </AccordionItem>
+              </Accordion>
+            )}
           </Box>
 
           <Box borderWidth="1px" borderRadius="lg" p={4} bg={bgColor}>
@@ -260,15 +265,15 @@ const CourseDetailPage = () => {
                 colorScheme="green"
                 size="md"
                 mt={4}
+                isDisabled={reviewed}
               >
-                Review Course
+                {reviewed ? "Reviewed" : "Review Course"}
               </Button>
             </Flex>
           )}
         </VStack>
-        {isLoadingReviews ? (
-          <Box>Loading...</Box>
-        ) : (
+        {isLoadingReviews ?? <Box>Loading...</Box>}
+        {reviews && (
           <>
             <Text fontSize="2xl" mb={4} alignSelf="left">
               Reviews
