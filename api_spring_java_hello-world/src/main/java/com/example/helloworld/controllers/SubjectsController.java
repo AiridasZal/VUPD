@@ -46,4 +46,11 @@ public class SubjectsController {
         List<Subject> subjectList = subjectsService.getSubjectById(faculty, course, year, id);
         return new ResponseEntity<>(subjectList, HttpStatus.OK);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Subject>> searchSubjects(@RequestParam String query) {
+        List<Subject> filteredSubjects = subjectsService.searchSubjects(query);
+        return new ResponseEntity<>(filteredSubjects, HttpStatus.OK);
+    }
+
 }

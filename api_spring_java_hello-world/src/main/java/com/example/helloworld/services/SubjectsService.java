@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.apache.commons.lang3.StringUtils;
 
 import com.example.helloworld.exceptions.NotFoundException;
 import com.example.helloworld.models.Subject;
@@ -82,5 +83,13 @@ public class SubjectsService {
             throw new NotFoundException("No subjects found for faculty: " + faculty + ", course: " + course + ", year: " + year + ", id: " + id);
         }
         return subjects;
+    }
+
+    public List<Subject> searchSubjects(String searchTerm) {
+        List<Subject> allSubjects = subjectsRepository.findAll();
+        return allSubjects.stream()
+                .filter(subject -> StringUtils.containsIgnoreCase(subject.getName(), searchTerm) ||
+                                subject.getLecturers().stream().anyMatch(lecturer -> StringUtils.containsIgnoreCase(lecturer, searchTerm)))
+                .collect(Collectors.toList());
     }
 }

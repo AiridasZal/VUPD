@@ -1,22 +1,32 @@
 import { Box, Input } from "@chakra-ui/react";
-import { useState } from "react";
+import { debounce } from "lodash";
+import { useState, useCallback, useEffect } from "react";
 
-const BrowseSearchSection = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+const BrowseSearchSection = ({ searchTerm, setSearchTerm }) => {
+  const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
 
-  const handleSearch = (event: React.FormEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    console.log(searchTerm + " was searched");
-    // Implement the API call function here
+  useEffect(() => {
+    setLocalSearchTerm(searchTerm);
+  }, [searchTerm]);
+
+  const handleSearchTermChange = (event) => {
+    setLocalSearchTerm(event.target.value);
+    debouncedSetSearchTerm(event.target.value);
   };
 
+  const debouncedSetSearchTerm = useCallback(
+    debounce((term) => {
+      setSearchTerm(term);
+    }, 500),
+    []
+  );
+
   return (
-    <Box as="form" onSubmit={handleSearch}>
+    <Box>
       <Input
         placeholder="Search courses"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        onSubmit={handleSearch}
+        value={localSearchTerm}
+        onChange={handleSearchTermChange}
       />
     </Box>
   );

@@ -5,24 +5,31 @@ import { Subject } from "../entities/subject";
 const getSubjects = async (
   facultySlug: string,
   programSlug: string,
-  year: string
-): Promise<Subject[]> => {
-  const { data } = await axios.get(
-    `http://localhost:6060/subjects/${facultySlug}/${programSlug}/${year}`
-  );
+  year: string,
+  searchTerm: string
+) => {
+  let endpoint;
+  if (searchTerm) {
+    endpoint = `http://localhost:6060/subjects/search?query=${searchTerm}`;
+  } else {
+    endpoint = `http://localhost:6060/subjects/${facultySlug}/${programSlug}/${year}`;
+  }
+
+  const { data } = await axios.get(endpoint);
   return data;
 };
 
 export const useSubjects = (
   facultySlug: string,
   programSlug: string,
-  year: string
+  year: string,
+  searchTerm: string
 ) => {
+  const areAllFiltersSelected = facultySlug && programSlug && year;
+
   return useQuery<Subject[], Error>({
-    queryKey: ["subjects", facultySlug, programSlug, year],
-    queryFn: () => {
-      return getSubjects(facultySlug, programSlug, year);
-    },
-    enabled: !!facultySlug && !!programSlug && !!year,
+    queryKey: ["subjects", facultySlug, programSlug, year, searchTerm],
+    queryFn: () => getSubjects(facultySlug, programSlug, year, searchTerm),
+    enabled: Boolean(searchTerm) || Boolean(areAllFiltersSelected),
   });
 };
