@@ -40,7 +40,7 @@ const BrowseResultsSection = ({
   );
 
   return (
-    <Box>
+    <>
       {Object.entries(subjectsBySemester).map(
         ([semester, semesterSubjects]) => (
           <Box key={semester} mb={6}>
@@ -76,7 +76,7 @@ const BrowseResultsSection = ({
           </Box>
         )
       )}
-    </Box>
+    </>
   );
 };
 

@@ -291,10 +291,10 @@ const CourseDetailPage = () => {
           )}
         </VStack>
       </Flex>
-      <Flex direction="column" align="center" justify="flex-start">
-        <VStack align="stretch" maxW="6xl">
-          {isLoadingReviews ?? <Box>Loading...</Box>}
-          {reviews && (
+      {isLoadingReviews ?? <Box>Loading...</Box>}
+      {reviews && (
+        <Flex direction="column" align="center" justify="flex-start">
+          <VStack align="stretch" maxW="6xl">
             <>
               <HStack spacing={4} wrap="wrap" justify="space-between">
                 <Text fontSize="2xl" mb={4} justifySelf="left">
@@ -323,9 +323,9 @@ const CourseDetailPage = () => {
                 sortType={sortType}
               />
             </>
-          )}
-        </VStack>
-      </Flex>
+          </VStack>
+        </Flex>
+      )}
       <Modal isOpen={isDeleteModalOpen} onClose={closeDeleteModal} isCentered>
         <ModalOverlay />
         <ModalContent>
