@@ -1,29 +1,69 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Box,
   Button,
+  Link as ChakraLink,
+  Flex,
+  HStack,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Stack,
+  Tag,
   Text,
   VStack,
-  HStack,
-  Tag,
-  Flex,
-  Link as ChakraLink,
   useColorModeValue,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { Link as RouterLink, useParams, useLocation } from "react-router-dom";
-import { useSubjectDetails } from "../hooks/useSubjectDetails";
-import { useAuth0 } from "@auth0/auth0-react";
-import { useCourseReviews } from "../hooks/useCourseReviews";
+import { useQueryClient } from "@tanstack/react-query";
+import { SetStateAction, useState } from "react";
+import {
+  Link as RouterLink,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import Reviews from "../components/SubjectDetails/Reviews";
+import SubjectRating from "../components/SubjectDetails/SubjectRating";
+import { Review } from "../entities/review";
+import { useCourseReviews } from "../hooks/useCourseReviews";
+import { useSubjectDetails } from "../hooks/useSubjectDetails";
 
 const CourseDetailPage = () => {
+  const bgColor = useColorModeValue("gray.50", "gray.700");
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedReviewId, setSelectedReviewId] = useState<string | null>(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const openDeleteModal = (reviewId: SetStateAction<string | null>) => {
+    setSelectedReviewId(reviewId);
+    setIsDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    setSelectedReviewId(null);
+    setIsDeleteModalOpen(false);
+  };
+  const queryClient = useQueryClient();
   const { slug, program, course } = useParams<{
     slug: string;
     program: string;
     course: string;
   }>();
   const location = useLocation();
+  const navigate = useNavigate();
   const state = location.state as { subjectId?: string; year?: number };
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
+  const userId = user?.sub;
+
   const subjectId = state?.subjectId ?? "";
   const year = state?.year ?? 0;
   const safeSlug = slug ?? "";
@@ -36,8 +76,6 @@ const CourseDetailPage = () => {
   } = useSubjectDetails(safeSlug, safeProgram, year, subjectId);
   const subjectDetails = subjectDetailsArray?.[0];
 
-  const bgColor = useColorModeValue("gray.50", "gray.700");
-
   const { data: reviews, isLoading: isLoadingReviews } =
     useCourseReviews(subjectId);
   if (!subjectDetails) return <Box>Course not found</Box>;
@@ -46,20 +84,76 @@ const CourseDetailPage = () => {
   if (isError) return <Box>Error: {error?.message}</Box>;
   if (!subjectDetails) return <Box>Course not found</Box>;
 
-  function handleReviewDelete(reviewId: string): void {
-    throw new Error("Function not implemented.");
+  const calculateRatings = (reviews: Review[]) => {
+    const ratingSums: { [criteria: string]: number } = {};
+    let reviewCount = 0;
+
+    reviews.forEach((review) => {
+      Object.entries(review.ratings).forEach(([criteria, rating]) => {
+        ratingSums[criteria] = (ratingSums[criteria] || 0) + rating;
+      });
+      reviewCount++;
+    });
+
+    const ratingAverages: { [criteria: string]: number } = {};
+    Object.keys(ratingSums).forEach((criteria) => {
+      ratingAverages[criteria] = ratingSums[criteria] / reviewCount;
+    });
+
+    const overallScore =
+      reviewCount > 0
+        ? Object.values(ratingAverages).reduce((a, b) => a + b, 0) /
+          Object.keys(ratingAverages).length
+        : 0;
+
+    return { ratingAverages, overallScore };
+  };
+
+  const { ratingAverages, overallScore } = calculateRatings(reviews || []);
+  const reviewCount = reviews?.length || 0;
+
+  async function handleReviewDelete() {
+    try {
+      const accessToken = await getAccessTokenSilently();
+      await fetch(`http://localhost:6060/reviews/${selectedReviewId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      closeDeleteModal();
+      queryClient.invalidateQueries("courseReviews");
+    } catch (error) {
+      console.error("Error deleting review:", error);
+    }
   }
 
-  function handleDownvote(reviewId: string): void {
-    throw new Error("Function not implemented.");
+  async function handleVote(reviewId: string, isUpvote: boolean) {
+    try {
+      const accessToken = await getAccessTokenSilently();
+      await fetch(
+        `http://localhost:6060/reviews/vote/${reviewId}?upvote=${isUpvote}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      queryClient.invalidateQueries("courseReviews");
+    } catch (error) {
+      console.error("Error voting on review:", error);
+    }
   }
 
-  function handleEdit(review: Review): void {
-    throw new Error("Function not implemented.");
-  }
+  const handleUpvote = (reviewId: string) => handleVote(reviewId, true);
+  const handleDownvote = (reviewId: string) => handleVote(reviewId, false);
 
-  function handleUpvote(reviewId: string): void {
-    throw new Error("Function not implemented.");
+  function handleEdit(review: Review) {
+    navigate(`/courses/${slug}/${program}/${course}/review`, {
+      state: { courseData: subjectDetails, editReview: review },
+    });
   }
 
   return (
@@ -99,6 +193,46 @@ const CourseDetailPage = () => {
               </Text>
             </Tag>
           </HStack>
+          <Box p={4} borderWidth="1px" borderRadius="lg" mb={4}>
+            <Text fontWeight="semibold" mb={2}>
+              Overall Course Rating
+            </Text>
+            <Flex alignItems="center">
+              <SubjectRating rating={overallScore} />
+              <Text ml={2}>
+                ({overallScore.toFixed(2)}) ({reviewCount})
+              </Text>
+            </Flex>
+
+            <Accordion allowToggle mt={4}>
+              <AccordionItem>
+                <h2>
+                  <AccordionButton>
+                    <Box flex="1" textAlign="left">
+                      Detailed Ratings
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4}>
+                  <Stack spacing={4}>
+                    {Object.entries(ratingAverages).map(
+                      ([criteria, rating]) => (
+                        <Flex key={criteria} alignItems="center">
+                          <Text fontWeight="semibold" mr={2}>
+                            {criteria}
+                          </Text>
+                          <SubjectRating rating={rating} />
+                          <Text ml={2}>({rating.toFixed(2)})</Text>
+                        </Flex>
+                      )
+                    )}
+                  </Stack>
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
+          </Box>
+
           <Box borderWidth="1px" borderRadius="lg" p={4} bg={bgColor}>
             <Text fontWeight="semibold">Summary:</Text>
             <Text mt={2}>{subjectDetails.summary}</Text>
@@ -141,8 +275,8 @@ const CourseDetailPage = () => {
             </Text>
             <Reviews
               reviews={reviews}
-              currentUserId=""
-              onDelete={handleReviewDelete}
+              currentUserId={userId || ""}
+              onDelete={openDeleteModal}
               onDownvote={handleDownvote}
               onEdit={handleEdit}
               onUpvote={handleUpvote}
@@ -150,6 +284,21 @@ const CourseDetailPage = () => {
           </>
         )}
       </Flex>
+      <Modal isOpen={isDeleteModalOpen} onClose={closeDeleteModal}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Confirm Delete</ModalHeader>
+          <ModalBody>Are you sure you want to delete this review?</ModalBody>
+          <ModalFooter>
+            <Button colorScheme="red" mr={3} onClick={handleReviewDelete}>
+              Delete
+            </Button>
+            <Button variant="ghost" onClick={closeDeleteModal}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };

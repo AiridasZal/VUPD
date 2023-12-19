@@ -8,22 +8,32 @@ import {
   VStack,
   useToast,
 } from "@chakra-ui/react";
-import { useState, useEffect, SetStateAction } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import StarRating from "../components/StarRating";
 import { useAuth0 } from "@auth0/auth0-react";
 
+type RatingsType = {
+  [criteria: string]: number;
+};
+
 const CourseReviewPage = () => {
   const [value, setValue] = useState("");
-  const [ratings, setRatings] = useState({});
+  const [ratings, setRatings] = useState<RatingsType>({});
   const [isLoading, setIsLoading] = useState(false);
+  const [editReview, setEditReview] = useState(null);
   const { getAccessTokenSilently } = useAuth0();
   const toast = useToast();
   const navigate = useNavigate();
   const location = useLocation();
   const courseData = location.state?.courseData;
+
   useEffect(() => {
-    if (!courseData) {
+    if (location.state?.editReview) {
+      setEditReview(location.state.editReview);
+      setValue(location.state.editReview.review);
+      setRatings(location.state.editReview.ratings);
+    } else if (!courseData) {
       toast({
         title: "Error",
         description: "Course data not found",
@@ -32,15 +42,13 @@ const CourseReviewPage = () => {
       });
       navigate("/");
     }
-  }, [courseData, navigate, toast]);
+  }, [courseData, navigate, toast, location.state]);
 
-  const handleInputChange = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
+  const handleInputChange = (e) => {
     setValue(e.target.value);
   };
 
-  const handleRatingChange = (criteria: string, rating: number) => {
+  const handleRatingChange = (criteria, rating) => {
     setRatings((prevRatings) => ({ ...prevRatings, [criteria]: rating }));
   };
 
@@ -54,14 +62,29 @@ const CourseReviewPage = () => {
         ratings: ratings,
       };
 
-      const response = await fetch("http://localhost:6060/reviews/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify(reviewData),
-      });
+      let response;
+      if (editReview) {
+        response = await fetch(
+          `http://localhost:6060/reviews/${editReview.id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify(reviewData),
+          }
+        );
+      } else {
+        response = await fetch("http://localhost:6060/reviews/add", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify(reviewData),
+        });
+      }
 
       if (!response.ok) {
         throw new Error("Failed to submit review");
@@ -97,7 +120,7 @@ const CourseReviewPage = () => {
     "Workload",
   ];
 
-  if (!courseData) return <Box>Loading...</Box>;
+  if (!courseData && !editReview) return <Box>Loading...</Box>;
 
   return (
     <Box as="section">
@@ -121,6 +144,7 @@ const CourseReviewPage = () => {
               {criteria}
             </Text>
             <StarRating
+              rating={ratings[criteria]}
               onRating={(rating) => handleRatingChange(criteria, rating)}
             />
           </Box>
@@ -147,7 +171,7 @@ const CourseReviewPage = () => {
           isLoading={isLoading}
           onClick={handleSubmit}
         >
-          Submit Review
+          {editReview ? "Update Review" : "Submit Review"}
         </Button>
       </VStack>
     </Box>
