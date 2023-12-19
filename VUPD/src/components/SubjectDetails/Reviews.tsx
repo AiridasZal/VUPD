@@ -7,16 +7,7 @@ import {
   FaRegThumbsDown,
   FaRegThumbsUp,
 } from "react-icons/fa";
-
-interface Review {
-  id: string;
-  userId: string;
-  review: string;
-  upvotes: number;
-  downvotes: number;
-  upvotedBy: string[];
-  downvotedBy: string[];
-}
+import { Review } from "../../entities/review";
 
 interface Props {
   reviews: Review[];

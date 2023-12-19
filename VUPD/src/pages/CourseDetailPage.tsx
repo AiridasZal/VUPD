@@ -131,7 +131,10 @@ const CourseDetailPage = () => {
         },
       });
       closeDeleteModal();
-      queryClient.invalidateQueries("courseReviews");
+      selectedReviewId &&
+        queryClient.invalidateQueries({
+          queryKey: ["courseReviews", selectedReviewId],
+        });
     } catch (error) {
       console.error("Error deleting review:", error);
     }
@@ -150,7 +153,10 @@ const CourseDetailPage = () => {
           },
         }
       );
-      queryClient.invalidateQueries("courseReviews");
+      selectedReviewId &&
+        queryClient.invalidateQueries({
+          queryKey: ["courseReviews", selectedReviewId],
+        });
     } catch (error) {
       console.error("Error voting on review:", error);
     }
@@ -197,7 +203,7 @@ const CourseDetailPage = () => {
               </Text>
             </Tag>
           </HStack>
-          <Box p={4} borderWidth="1px" borderRadius="lg" mb={4} bg={bgColor}>
+          <Box p={4} borderWidth="1px" borderRadius="lg" bg={bgColor}>
             <Text fontWeight="semibold" mb={2}>
               Overall Course Rating
             </Text>
@@ -289,7 +295,7 @@ const CourseDetailPage = () => {
           </>
         )}
       </Flex>
-      <Modal isOpen={isDeleteModalOpen} onClose={closeDeleteModal}>
+      <Modal isOpen={isDeleteModalOpen} onClose={closeDeleteModal} isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Confirm Delete</ModalHeader>
