@@ -273,8 +273,12 @@ const CourseDetailPage = () => {
           {isAuthenticated && (
             <Flex justify="end" w="full">
               <Button
-                as={RouterLink}
-                to={`/courses/${slug}/${program}/${course}/review`}
+                as={reviewed ? undefined : RouterLink}
+                to={
+                  reviewed
+                    ? undefined
+                    : `/courses/${slug}/${program}/${course}/review`
+                }
                 state={{ courseData: subjectDetails }}
                 colorScheme="green"
                 size="md"
