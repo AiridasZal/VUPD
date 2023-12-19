@@ -1,0 +1,78 @@
+Similarity between the two texts: 0.9323090314865112
+Similarity between the two texts: 0.8295512795448303
+Similarity between the two texts: 0.8078973293304443
+Similarity between the two texts: 0.6985604166984558
+Similarity between the two texts: 0.7888094782829285
+Similarity between the two texts: 0.8201292753219604
+Similarity between the two texts: 0.8216454982757568
+Similarity between the two texts: 0.7150932550430298
+Similarity between the two texts: 0.8514232635498047
+Similarity between the two texts: 0.8019530177116394
+Similarity between the two texts: 0.7426924705505371
+Similarity between the two texts: 0.812470555305481
+Similarity between the two texts: 0.8561145663261414
+Similarity between the two texts: 0.8193824291229248
+Similarity between the two texts: 0.7252389788627625
+Similarity between the two texts: 0.7049741744995117
+Similarity between the two texts: 0.794410228729248
+Similarity between the two texts: 0.7343764305114746
+Similarity between the two texts: 0.8167104721069336
+Similarity between the two texts: 0.8259648680686951
+Similarity between the two texts: 0.772643506526947
+Similarity between the two texts: 0.7547609806060791
+Similarity between the two texts: 0.7363418340682983
+Similarity between the two texts: 0.8312113881111145
+Similarity between the two texts: 0.8442215323448181
+Similarity between the two texts: 0.6870343089103699
+Similarity between the two texts: 0.7389438152313232
+Similarity between the two texts: 0.7921124696731567
+Similarity between the two texts: 0.8607925176620483
+Similarity between the two texts: 0.807387113571167
+Similarity between the two texts: 0.8056349158287048
+Similarity between the two texts: 0.736406683921814
+Similarity between the two texts: 0.7187891006469727
+Similarity between the two texts: 0.798378050327301
+Similarity between the two texts: 0.7814254760742188
+Similarity between the two texts: 0.8657678961753845
+[0.0, 0.93230903, 0.8295513, 0.8078973, 0.6985604, 0.7888095, 0.8201293, 0.8216455, 0.71509326]
+[0.93230903, 0.0, 0.85142326, 0.801953, 0.7426925, 0.81247056, 0.85611457, 0.8193824, 0.725239]
+[0.8295513, 0.85142326, 0.0, 0.7049742, 0.7944102, 0.73437643, 0.8167105, 0.82596487, 0.7726435]
+[0.8078973, 0.801953, 0.7049742, 0.0, 0.754761, 0.73634183, 0.8312114, 0.84422153, 0.6870343]
+[0.6985604, 0.7426925, 0.7944102, 0.754761, 0.0, 0.7389438, 0.79211247, 0.8607925, 0.8073871]
+[0.7888095, 0.81247056, 0.73437643, 0.73634183, 0.7389438, 0.0, 0.8056349, 0.7364067, 0.7187891]
+[0.8201293, 0.85611457, 0.8167105, 0.8312114, 0.79211247, 0.8056349, 0.0, 0.79837805, 0.7814255]
+[0.8216455, 0.8193824, 0.82596487, 0.84422153, 0.8607925, 0.7364067, 0.79837805, 0.0, 0.8657679]
+[0.71509326, 0.725239, 0.7726435, 0.6870343, 0.8073871, 0.7187891, 0.7814255, 0.8657679, 0.0]
+Subjects in texts procprog and duomTyr: tikslas, struktūra, algoritmus, metodai, metodaivertinimo, literatūros, data, susipazintu, diskusija, duomeny, pavyzdziu, studentai, duomenis, darbas, modulio, analize, paieska, gebės
+Subjects in texts procprog and infSys: metodai, literatūros, darbo, valdymo, darbas, analize, paieska
+Subjects in texts procprog and diskre: literatūros, sprendimas
+Subjects in texts procprog and algoirstruct: literatūros, metodai, struktūros, analize
+Subjects in texts procprog and komparch: struktūra, literatūros, atminties, valdymo, informacijos, analize, skaiciu
+Subjects in texts procprog and objprog: struktūros, darbai, literatūros, c++, programos, paradigma, operatoriai, programavimo, skaiciu
+Subjects in texts procprog and duombaziuvald: struktūros, literatūros, darbai, duomeny, pavyzdziu, modeliavimas, analize
+Subjects in texts duomTyr and robo: darby
+Subjects in texts duomTyr and infSys: metodai, programming, literatūros, ivadas, darbas, analize, analizė, paieska, rengimas
+Subjects in texts duomTyr and diskre: literatūros
+Subjects in texts duomTyr and algoirstruct: literatūros, metodai, analize
+Subjects in texts duomTyr and komparch: struktūra, literatūros, requirements, prerequisites, skaiciavimu, analize, analizė, rengimas
+Subjects in texts duomTyr and objprog: literatūros, palyginimas, analizė, duomenu
+Subjects in texts duomTyr and duombaziuvald: literatūros, duomeny, duomenu, pavyzdziu, analize, palyginimas, analizė
+Subjects in texts robo and infSys: valdymas
+Subjects in texts robo and diskre: charakteristikos, elementai
+Subjects in texts robo and komparch: charakteristikos, kompiuterio, schemos, elementai, architektūra
+Subjects in texts robo and objprog: valdymas, programavimas
+Subjects in texts infSys and diskre: literatūros, kartojimas, teorija
+Subjects in texts infSys and algoirstruct: literatūros, metodai, analize
+Subjects in texts infSys and komparch: principai, atlikimas, sistemos, literatūros, nasumo, valdymo, taikymas, analize, analizė, rengimas
+Subjects in texts infSys and objprog: sistemos, literatūros, laiko, kartojimas, kūrimas, valdymas, analizė
+Subjects in texts infSys and duombaziuvald: literatūros, kartojimas, kūrimas, analize, analizė
+Subjects in texts diskre and algoirstruct: literatūros, algoritmai, savoka
+Subjects in texts diskre and komparch: charakteristikos, funkcijos, literatūros, operacijos, savokos, elementai, algoritmai
+Subjects in texts diskre and objprog: literatūros, kartojimas, funkcijos
+Subjects in texts diskre and duombaziuvald: literatūros, kartojimas, funkcijos, savokos
+Subjects in texts algoirstruct and komparch: literatūros, algoritmai, analize
+Subjects in texts algoirstruct and objprog: literatūros, realizavimo, struktūros, sarasas
+Subjects in texts algoirstruct and duombaziuvald: literatūros, struktūros, analize
+Subjects in texts komparch and objprog: sistemos, funkcijos, literatūros, analizė, skaiciu
+Subjects in texts komparch and duombaziuvald: funkcijos, literatūros, literaturos, savokos, analize, analizė
+Subjects in texts objprog and duombaziuvald: egzaminui, struktūros, funkcijos, literatūros, darbai, projektavimas, lentelės, kūrimas, kartojimas, duomenu, pasiruosimas, palyginimas, analizė

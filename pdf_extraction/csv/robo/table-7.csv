@@ -1,0 +1,17 @@
+"'","'","'","'Kontaktinio","'darbo","'","'valandos","'","'","'Savarankisku studiju laikas ir uzduotys",
+"'Temos","'","'","'Santander","'","'Association) databo","'","'Visas datanse","'experience datana","'Uzduotys",
+"'1. Elektronikos pagrindai: baziniai elektronikos elementai.","'2","'","'","'","'2","'","'4","'2","'Susipazinti su pagrindiniais elektronikos elementais.",
+"'2. Elektronikos pagrindai: itampa in srove, itampos ir srovés saltiniai, elektros pavojai.","'2","'","'","'","'2","'","'4","'2","'Susipazinti su elektronikos pagrindais ir pagrindinémis savokomis.",
+"'3. Mikrovaldikliai. Arduino mikrovaldiklio specifika.","'2","'","'","'","'2","'","'4","'4","'Susipazinti su programuojamu Arduino rinkiniu, prijungti jj prie kompiuterio, idiegti programine iranga ir patikrinti jos veikima.",
+"'4. Arduino pagrindai, Arduino programavimas, elektrines schemos, paprasto sviesos diodo (LED) valdymas, Omo désnis.","'2","'","'","'","'2","'","'4","'4","'Paprasto sviesos diodo valdymas, gebèjimas suskaiciuoti in teisingai sujungti paprasta dioda su varza.",
+"'5. Analogine in skaitmeniné elektronika. potenciometrai, sviesos diodai.","'2","'","'","'","'2","'","'4","'4","'Susipazinti su potenciometrais in kita elektronika, valdyti diodus an kitus elektronikos elementus panaudojant analogine elektronika potenciometrus.",
+,,,,,,,,,
+
+'Confidence Scores % (Table Cell)
+"'96.33789063","'86.91406250","'86.91406250","'86.91406250","'86.91406250","'86.91406250","'86.91406250","'86.91406250","'85.44921875","'85.44921875",
+"'96.33789063","'93.40820313","'95.65429688","'95.55664063","'95.26367188","'95.60546875","'94.82421875","'93.84765625","'94.14062500","'95.16601563",
+"'93.94531250","'91.40625000","'93.60351563","'93.50585938","'93.21289063","'93.55468750","'92.82226563","'91.84570313","'92.13867188","'93.11523438",
+"'93.21289063","'90.72265625","'92.91992188","'92.82226563","'92.52929688","'92.87109375","'92.08984375","'91.11328125","'91.45507813","'92.43164063",
+"'94.87304688","'92.33398438","'94.58007813","'94.48242188","'94.18945313","'94.53125000","'93.75000000","'92.77343750","'93.06640625","'94.09179688",
+"'93.01757813","'90.52734375","'92.72460938","'92.62695313","'92.33398438","'92.67578125","'91.89453125","'90.91796875","'91.25976563","'92.23632813",
+"'95.21484375","'92.62695313","'94.87304688","'94.77539063","'94.53125000","'94.82421875","'94.09179688","'93.06640625","'93.40820313","'94.43359375",
