@@ -1,5 +1,12 @@
-import { Box, Text, Flex, IconButton, Spacer } from "@chakra-ui/react";
-import { FaThumbsUp, FaThumbsDown, FaEdit, FaTrash } from "react-icons/fa";
+import { Box, Text, Flex, IconButton } from "@chakra-ui/react";
+import {
+  FaThumbsUp,
+  FaThumbsDown,
+  FaEdit,
+  FaTrash,
+  FaRegThumbsDown,
+  FaRegThumbsUp,
+} from "react-icons/fa";
 
 interface Review {
   id: string;
@@ -7,6 +14,8 @@ interface Review {
   review: string;
   upvotes: number;
   downvotes: number;
+  upvotedBy: string[];
+  downvotedBy: string[];
 }
 
 interface Props {
@@ -27,6 +36,11 @@ const Reviews = ({
   onEdit,
 }: Props) => {
   const isAuthor = (userId: string) => userId === currentUserId;
+
+  const userHasUpvoted = (review: Review) =>
+    review.upvotedBy.includes(currentUserId);
+  const userHasDownvoted = (review: Review) =>
+    review.downvotedBy.includes(currentUserId);
 
   return (
     <Box maxW="6xl" w="100%">
@@ -53,14 +67,20 @@ const Reviews = ({
           <Text my={2}>{review.review}</Text>
           <Flex justifyContent="flex-end" mt={2} align="center">
             <IconButton
-              icon={<FaThumbsUp />}
+              icon={userHasUpvoted(review) ? <FaThumbsUp /> : <FaRegThumbsUp />}
               onClick={() => onUpvote(review.id)}
               mr={2}
               aria-label="Upvote"
             />
             <Text mr={2}>{review.upvotes}</Text>
             <IconButton
-              icon={<FaThumbsDown />}
+              icon={
+                userHasDownvoted(review) ? (
+                  <FaThumbsDown />
+                ) : (
+                  <FaRegThumbsDown />
+                )
+              }
               onClick={() => onDownvote(review.id)}
               mr={2}
               aria-label="Downvote"
