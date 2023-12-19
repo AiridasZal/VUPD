@@ -17,8 +17,6 @@ from spellchecker import SpellChecker
 import glob
 import string
 import langid
-import fasttext
-import fasttext.util
 from nltk.corpus import wordnet as wn
 from sklearn.metrics.pairwise import cosine_similarity
 import tensorflow as tf
