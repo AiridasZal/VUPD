@@ -1,5 +1,8 @@
 package com.example.helloworld.models;
 
+import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,7 +19,6 @@ import lombok.Setter;
 public class Review {
 
     @Id
-    
     private String id;
 
     private String courseId;
@@ -28,4 +30,10 @@ public class Review {
     private int upvotes;
 
     private int downvotes;
+
+    private Map<String, Integer> ratings;
+
+    private Set<String> upvotedBy = new HashSet<>();
+
+    private Set<String> downvotedBy = new HashSet<>();
 }

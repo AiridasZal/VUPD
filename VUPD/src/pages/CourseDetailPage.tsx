@@ -12,6 +12,7 @@ import {
 import { Link as RouterLink, useParams, useLocation } from "react-router-dom";
 import { useSubjectDetails } from "../hooks/useSubjectDetails";
 import { useAuth0 } from "@auth0/auth0-react";
+// import { useEffect, useState } from "react";
 
 const CourseDetailPage = () => {
   const { slug, program, course } = useParams<{
@@ -21,12 +22,11 @@ const CourseDetailPage = () => {
   }>();
   const location = useLocation();
   const state = location.state as { subjectId?: string; year?: number };
-
+  const { isAuthenticated } = useAuth0();
   const subjectId = state?.subjectId ?? "";
   const year = state?.year ?? 0;
   const safeSlug = slug ?? "";
   const safeProgram = program ?? "";
-  console.log(safeSlug, safeProgram, year, subjectId);
   const {
     data: subjectDetailsArray,
     isLoading,
@@ -37,8 +37,29 @@ const CourseDetailPage = () => {
 
   const bgColor = useColorModeValue("gray.50", "gray.700");
 
-  const { isAuthenticated } = useAuth0();
+  // const { getAccessTokenSilently } = useAuth0();
+  // const [data, setData] = useState(null);
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const accessToken = await getAccessTokenSilently();
+  //       const response = await fetch("http://localhost:6060/reviews/all", {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //         },
+  //       });
+  //       const responseData = await response.json();
+  //       setData(responseData);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [getAccessTokenSilently]);
+
+  // return <div>{data && <p>{JSON.stringify(data)}</p>}</div>;
   if (isLoading) return <Box>Loading...</Box>;
   if (isError) return <Box>Error: {error?.message}</Box>;
   if (!subjectDetails) return <Box>Course not found</Box>;
@@ -103,6 +124,7 @@ const CourseDetailPage = () => {
               <Button
                 as={RouterLink}
                 to={`/courses/${slug}/${program}/${course}/review`}
+                state={{ courseData: subjectDetails }}
                 colorScheme="green"
                 size="md"
                 mt={4}
