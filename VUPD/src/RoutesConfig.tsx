@@ -13,7 +13,6 @@ import CourseDetailPage from "./pages/CourseDetailPage";
 import CourseReviewPage from "./pages/CourseReviewPage";
 import CourseSelectPage from "./pages/CourseSelectPage";
 import ErrorPage from "./pages/ErrorPage";
-import FacultySelectPage from "./pages/FacultySelectPage";
 import ProgramSelectPage from "./pages/ProgramSelectPage";
 import PublicPage from "./pages/PublicPage";
 import DashboardPage from "./pages/DashboardPage";
@@ -46,7 +45,7 @@ const RoutesConfig = () => {
         /> */}
         <Route path="browse" element={<BrowsePage />} />
         <Route path="testing/public" element={<PublicPage />} />
-        <Route path="courses" element={<FacultySelectPage />} />
+        <Route path="courses" element={<BrowsePage />} />
         <Route path="courses/:slug" element={<ProgramSelectPage />} />
         <Route path="courses/:slug/:program" element={<CourseSelectPage />} />
         <Route

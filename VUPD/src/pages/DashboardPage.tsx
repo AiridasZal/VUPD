@@ -119,7 +119,13 @@ const DashboardPage = () => {
                     <Text fontWeight="bold">
                       Reason: {JSON.parse(report.report.reason).reason}
                     </Text>
-                    <Text fontSize="sm">Review: {report.review.review}</Text>
+                    <Text
+                      fontSize="sm"
+                      wordBreak="break-word"
+                      overflowWrap="break-word"
+                    >
+                      Review: {report.review.review}
+                    </Text>
                     <Text fontSize="sm" color="gray.500">
                       Reported At: {report.report.reportedAt}
                     </Text>
