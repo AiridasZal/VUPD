@@ -4,7 +4,6 @@ import {
   Heading,
   Text,
   Button,
-  Image,
   useColorModeValue,
   Stack,
   useBreakpointValue,
@@ -13,6 +12,8 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import heroImage from "../assets/Hero.svg";
+import { useAuth0 } from "@auth0/auth0-react";
+import CustomImage from "./CustomImage";
 
 const HeroSection = () => {
   const stackDirection = useBreakpointValue({
@@ -20,6 +21,17 @@ const HeroSection = () => {
     sm: "row",
   }) as StackDirection;
 
+  const { loginWithRedirect, isAuthenticated } = useAuth0();
+  const handleLogin = async () => {
+    await loginWithRedirect({
+      appState: {
+        returnTo: "/profile",
+      },
+      authorizationParams: {
+        prompt: "login",
+      },
+    });
+  };
   const { colorMode } = useColorMode();
   return (
     <Box
@@ -58,12 +70,19 @@ const HeroSection = () => {
             to choose a subject that's the best for you!
           </Text>
           <Stack direction={stackDirection} spacing={4} mt={8}>
-            <Button as={Link} to="/login" size="lg" colorScheme="blue">
-              Join Now
-            </Button>
+            {!isAuthenticated && (
+              <Button onClick={handleLogin} size="lg" colorScheme="blue">
+                Join Now
+              </Button>
+            )}
+            {isAuthenticated && (
+              <Button as={Link} to="/browse" size="lg" colorScheme="blue">
+                Get Started
+              </Button>
+            )}
             <Button
               as={Link}
-              to="/courses"
+              to="/browse"
               size="lg"
               colorScheme="blue"
               variant="outline"
@@ -75,13 +94,12 @@ const HeroSection = () => {
 
         {/* Hero Image */}
         <Box flex="1" maxW={{ md: "50%" }}>
-          <Image
+          <CustomImage
             src={heroImage}
             alt="VUPD Hero"
             fit="cover"
             w="full"
             h={{ base: 64, md: "full" }}
-            loading="lazy"
             sx={{
               mixBlendMode: colorMode === "light" ? "multiply" : "none",
             }}

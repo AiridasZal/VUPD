@@ -1,0 +1,43 @@
+# Gradle files
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Gradle build directories
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# STS (Spring Tool Suite)
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# IntelliJ IDEA files
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# NetBeans files
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# VS Code files
+.vscode/
+
+# Miscellaneous files
+HELP.md
+*.log
+*.bin
+*.lock
+*file-system.probe
+
+# 12 Factor
+.env

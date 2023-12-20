@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "application",
+      "type": "com.example.helloworld.config.ApplicationProperties",
+      "sourceType": "com.example.helloworld.config.ApplicationProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "application.client-origin-url",
+      "type": "java.lang.String",
+      "sourceType": "com.example.helloworld.config.ApplicationProperties"
+    }
+  ],
+  "hints": []
+}

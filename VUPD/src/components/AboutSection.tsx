@@ -3,11 +3,11 @@ import {
   Flex,
   Heading,
   Text,
-  Image,
   useColorModeValue,
   useColorMode,
 } from "@chakra-ui/react";
 import aboutImage from "../assets/About.png";
+import CustomImage from "./CustomImage";
 
 const AboutSection = () => {
   const { colorMode } = useColorMode();
@@ -63,13 +63,12 @@ const AboutSection = () => {
 
         {/* About Image */}
         <Box flex="1" maxW={{ md: "50%" }}>
-          <Image
+          <CustomImage
             src={aboutImage}
             alt="About VUPD"
             fit="cover"
             w="full"
             h={{ base: 64, md: "full" }}
-            loading="lazy"
             sx={{
               mixBlendMode: colorMode === "light" ? "multiply" : "unset",
             }}

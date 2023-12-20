@@ -1,0 +1,28 @@
+application:
+  client-origin-url: ${CLIENT_ORIGIN_URL}
+
+server:
+  error:
+    whitelabel:
+      enabled: false
+  port: ${PORT}
+
+spring:
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${OKTA_OAUTH2_ISSUER} # Auth0 issuer URI
+          audience: ${OKTA_OAUTH2_AUDIENCE} # Auth0 audience
+
+logging:
+  level:
+    org.springframework.security: DEBUG

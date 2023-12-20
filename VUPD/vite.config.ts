@@ -1,7 +1,27 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig, loadEnv } from "vite";
+import react from "@vitejs/plugin-react";
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react()],
-})
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), "");
+  return {
+    define: {
+      "process.env.REACT_APP_AUTH0_DOMAIN": JSON.stringify(
+        env.REACT_APP_AUTH0_DOMAIN
+      ),
+      "process.env.REACT_APP_AUTH0_CLIENT_ID": JSON.stringify(
+        env.REACT_APP_AUTH0_CLIENT_ID
+      ),
+      "process.env.REACT_APP_AUTH0_CALLBACK_URL": JSON.stringify(
+        env.REACT_APP_AUTH0_CALLBACK_URL
+      ),
+      "process.env.REACT_APP_AUTH0_AUDIENCE": JSON.stringify(
+        env.REACT_APP_AUTH0_AUDIENCE
+      ),
+      "process.env.REACT_APP_API_SERVER_URL": JSON.stringify(
+        env.REACT_APP_API_SERVER_URL
+      ),
+    },
+    plugins: [react()],
+  };
+});

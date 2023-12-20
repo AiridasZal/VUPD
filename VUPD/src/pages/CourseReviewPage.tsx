@@ -6,24 +6,111 @@ import {
   Text,
   Textarea,
   VStack,
-  useBreakpointValue,
-  useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import StarRating from "../components/StarRating";
-import { CourseDetailResult, courseDetails } from "../data/courseDetails";
+import { useAuth0 } from "@auth0/auth0-react";
+
+type RatingsType = {
+  [criteria: string]: number;
+};
 
 const CourseReviewPage = () => {
-  const [value, setValue] = useState<string>("");
-  const [ratings, setRatings] = useState<{ [criteria: string]: number }>({});
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const fontSize = useBreakpointValue({ base: "md", md: "xl" });
-  const paddingX = useBreakpointValue({ base: 4, md: 8 });
-  const boxBg = useColorModeValue("white", "gray.700");
-  const borderColor = useColorModeValue("gray.200", "gray.600");
+  const [value, setValue] = useState("");
+  const [ratings, setRatings] = useState<RatingsType>({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [editReview, setEditReview] = useState(null);
+  const { getAccessTokenSilently } = useAuth0();
   const toast = useToast();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const courseData = location.state?.courseData;
+
+  useEffect(() => {
+    if (location.state?.editReview) {
+      setEditReview(location.state.editReview);
+      setValue(location.state.editReview.review);
+      setRatings(location.state.editReview.ratings);
+    } else if (!courseData) {
+      toast({
+        title: "Error",
+        description: "Course data not found",
+        status: "error",
+        isClosable: true,
+      });
+      navigate("/");
+    }
+  }, [courseData, navigate, toast, location.state]);
+
+  const handleInputChange = (e) => {
+    setValue(e.target.value);
+  };
+
+  const handleRatingChange = (criteria, rating) => {
+    setRatings((prevRatings) => ({ ...prevRatings, [criteria]: rating }));
+  };
+
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    try {
+      const accessToken = await getAccessTokenSilently();
+      const reviewData = {
+        courseId: courseData?.id,
+        review: value,
+        ratings: ratings,
+      };
+
+      let response;
+      if (editReview) {
+        response = await fetch(
+          `http://localhost:6060/reviews/${editReview.id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify(reviewData),
+          }
+        );
+      } else {
+        response = await fetch("http://localhost:6060/reviews/add", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify(reviewData),
+        });
+      }
+
+      if (!response.ok) {
+        throw new Error("Failed to submit review");
+      }
+
+      toast({
+        title: "Review submitted",
+        description: "Thank you for your review!",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: "Error",
+        description: "Failed to submit review",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const ratingCriteria = [
     "Course Content",
     "Instructor Performance",
@@ -33,108 +120,58 @@ const CourseReviewPage = () => {
     "Workload",
   ];
 
-  const { course } = useParams();
-  const courseData: CourseDetailResult | undefined = courseDetails.results.find(
-    (courseDetail) => courseDetail.slug === course
-  );
-
-  if (!courseData) return <Box>Course not found</Box>;
-
-  const courseName = courseData.name;
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(e.target.value);
-  };
-
-  const handleRatingChange = (criteria: string, rating: number) => {
-    setRatings((prevRatings) => ({ ...prevRatings, [criteria]: rating }));
-  };
-
-  const handleSubmit = () => {
-    setIsLoading(true);
-    console.log(value);
-    console.log(ratings);
-    setTimeout(() => {
-      setIsLoading(false);
-      toast({
-        title: "Review submitted.",
-        description: "Thank you for your review!",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
-    }, 1000);
-  };
+  if (!courseData && !editReview) return <Box>Loading...</Box>;
 
   return (
     <Box as="section">
-      <VStack
-        spacing={6}
-        align="stretch"
-        m={8}
-        px={paddingX}
-        mx="auto"
-        maxW="6xl"
-      >
+      <VStack spacing={6} align="stretch" m={8} mx="auto" maxW="6xl">
         <Heading as="h1" size="2xl" textAlign="center" mb={4}>
           Course Review
         </Heading>
-        <Text fontSize={fontSize} fontWeight="bold" textAlign="center">
-          {courseName}
+        <Text fontWeight="bold" textAlign="center">
+          {courseData.name}
         </Text>
         <Divider my={4} />
         {ratingCriteria.map((criteria) => (
           <Box
             key={criteria}
             p={5}
-            bg={boxBg}
-            borderWidth="1px"
-            borderColor={borderColor}
-            borderRadius="lg"
             shadow="sm"
             transition="box-shadow 0.2s"
             _hover={{ shadow: "md" }}
           >
-            <Text fontSize={fontSize} fontWeight="semibold" mb={3}>
+            <Text fontWeight="semibold" mb={3}>
               {criteria}
             </Text>
             <StarRating
+              rating={ratings[criteria]}
               onRating={(rating) => handleRatingChange(criteria, rating)}
             />
           </Box>
         ))}
         <Box
           p={5}
-          bg={boxBg}
-          borderWidth="1px"
-          borderColor={borderColor}
-          borderRadius="lg"
           shadow="sm"
           transition="box-shadow 0.2s"
           _hover={{ shadow: "md" }}
         >
-          <Text fontSize={fontSize} fontWeight="semibold" mb={3}>
-            Course Review
+          <Text fontWeight="semibold" mb={3}>
+            Write your review
           </Text>
           <Textarea
             value={value}
             onChange={handleInputChange}
-            placeholder="Write your detailed review here..."
+            placeholder="Your detailed review..."
             resize="none"
-            size="md"
             minHeight="150px"
           />
         </Box>
         <Button
           colorScheme="green"
-          size="md"
-          fontWeight="bold"
-          maxW="16rem"
-          alignSelf="end"
           isLoading={isLoading}
           onClick={handleSubmit}
         >
-          Submit Review
+          {editReview ? "Update Review" : "Submit Review"}
         </Button>
       </VStack>
     </Box>
