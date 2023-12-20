@@ -16,6 +16,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Select,
   Stack,
   Tag,
   Text,
@@ -24,6 +25,7 @@ import {
 } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { SetStateAction, useEffect, useState } from "react";
+import { FaBook } from "react-icons/fa6";
 import {
   Link as RouterLink,
   useLocation,
@@ -35,8 +37,7 @@ import SubjectRating from "../components/SubjectDetails/SubjectRating";
 import { Review } from "../entities/review";
 import { useCourseReviews } from "../hooks/useCourseReviews";
 import { useSubjectDetails } from "../hooks/useSubjectDetails";
-import { FaBook } from "react-icons/fa6";
-import { Select } from "@chakra-ui/react";
+import useAxios from "../hooks/useAxios";
 
 const CourseDetailPage = () => {
   const bgColor = useColorModeValue("gray.50", "gray.700");
@@ -44,6 +45,9 @@ const CourseDetailPage = () => {
   const [selectedReviewId, setSelectedReviewId] = useState<string | null>(null);
   const [reviewed, setReviewed] = useState<boolean>(false);
   const [sortType, setSortType] = useState("newest");
+  const [reportReason, setReportReason] = useState("");
+  const [selectedReviewIdForReport, setSelectedReviewIdForReport] =
+    useState("");
 
   const openDeleteModal = (reviewId: SetStateAction<string | null>) => {
     setSelectedReviewId(reviewId);
@@ -55,6 +59,26 @@ const CourseDetailPage = () => {
     setIsDeleteModalOpen(false);
   };
   const queryClient = useQueryClient();
+  const axiosInstance = useAxios();
+
+  const reportReview = async (reviewId, reason) => {
+    const response = await axiosInstance.post(
+      `/reports/report-review/${reviewId}`,
+      { reason }
+    );
+    return response.data;
+  };
+
+  const handleReport = async (reviewId, reason) => {
+    try {
+      await reportReview(reviewId, reason);
+      setSelectedReviewIdForReport("");
+      setReportReason("");
+    } catch (error) {
+      console.error("Error reporting review:", error);
+    }
+  };
+
   const { slug, program, course } = useParams<{
     slug: string;
     program: string;
@@ -321,6 +345,7 @@ const CourseDetailPage = () => {
                 onEdit={handleEdit}
                 onUpvote={handleUpvote}
                 sortType={sortType}
+                onReport={handleReport}
               />
             </>
           </VStack>

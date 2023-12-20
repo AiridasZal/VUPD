@@ -16,6 +16,7 @@ import ErrorPage from "./pages/ErrorPage";
 import FacultySelectPage from "./pages/FacultySelectPage";
 import ProgramSelectPage from "./pages/ProgramSelectPage";
 import PublicPage from "./pages/PublicPage";
+import DashboardPage from "./pages/DashboardPage";
 // Import other components as needed
 
 const RoutesConfig = () => {
@@ -30,6 +31,10 @@ const RoutesConfig = () => {
         <Route
           path="testing/profile"
           element={<AuthenticationGuard component={ProfilePage} />}
+        />
+        <Route
+          path="admin/dashboard"
+          element={<AuthenticationGuard component={DashboardPage} />}
         />
         {/* <Route
           path="testing/admin"

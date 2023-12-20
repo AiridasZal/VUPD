@@ -1,4 +1,18 @@
-import { Box, Text, Flex, IconButton } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Flex,
+  IconButton,
+  useDisclosure,
+  Modal,
+  Button,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Select,
+} from "@chakra-ui/react";
 import {
   FaThumbsUp,
   FaThumbsDown,
@@ -6,9 +20,11 @@ import {
   FaTrash,
   FaRegThumbsDown,
   FaRegThumbsUp,
+  FaFlag,
 } from "react-icons/fa";
 import { Review } from "../../entities/review";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useState } from "react";
 
 interface Props {
   reviews: Review[];
@@ -18,6 +34,7 @@ interface Props {
   onDelete: (reviewId: string) => void;
   onEdit: (review: Review) => void;
   sortType: string;
+  onReport: (reviewId: string, reason: string) => void;
 }
 
 const Reviews = ({
@@ -28,9 +45,26 @@ const Reviews = ({
   onDelete,
   onEdit,
   sortType,
+  onReport,
 }: Props) => {
-  const isAuthor = (userId: string) => userId === currentUserId;
   const { isAuthenticated } = useAuth0();
+  const [selectedReviewIdForReport, setSelectedReviewIdForReport] =
+    useState("");
+  const [reportReason, setReportReason] = useState("");
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleReportOpen = (reviewId) => {
+    setSelectedReviewIdForReport(reviewId);
+    onOpen();
+  };
+
+  const handleReportSubmit = async () => {
+    onReport(selectedReviewIdForReport, reportReason);
+    setSelectedReviewIdForReport("");
+    onClose();
+  };
+
+  const isAuthor = (userId: string) => userId === currentUserId;
   const userHasUpvoted = (review: Review) =>
     review.upvotedBy.includes(currentUserId);
   const userHasDownvoted = (review: Review) =>
@@ -78,6 +112,14 @@ const Reviews = ({
                 />
               </Flex>
             )}
+            {isAuthenticated && !isAuthor(review.userId) && (
+              <IconButton
+                icon={<FaFlag />}
+                onClick={() => handleReportOpen(review.id)}
+                aria-label="Report Review"
+                isDisabled={!isAuthenticated}
+              />
+            )}
           </Flex>
           <Text my={2}>{review.review}</Text>
           <Flex justifyContent="flex-end" mt={2} align="center">
@@ -106,6 +148,31 @@ const Reviews = ({
           </Flex>
         </Box>
       ))}
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Report Review</ModalHeader>
+          <ModalBody>
+            <Select
+              placeholder="Select a reason"
+              value={reportReason}
+              onChange={(e) => setReportReason(e.target.value)}
+            >
+              <option value="spam">Spam</option>
+              <option value="abusive">Abusive Content</option>
+              <option value="other">Other</option>
+            </Select>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="red" onClick={handleReportSubmit}>
+              Report
+            </Button>
+            <Button variant="ghost" onClick={onClose}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };

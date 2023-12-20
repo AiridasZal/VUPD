@@ -4,6 +4,8 @@ import java.util.List;
 import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.GrantedAuthority;
 import com.example.helloworld.exceptions.NotFoundException;
 import com.example.helloworld.models.Review;
 import com.example.helloworld.repositories.ReviewsRepository;
@@ -81,10 +83,16 @@ public class ReviewsService {
     }
 
     public void deleteReview(String reviewId, String userId) {
-        Review review = reviewsRepository.findById(reviewId).orElseThrow(() -> new NotFoundException("Review not found"));
-        if (!review.getUserId().equals(userId)) {
+        Review review = reviewsRepository.findById(reviewId)
+                        .orElseThrow(() -> new NotFoundException("Review not found"));
+
+        boolean isAdmin = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
+                         .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("read:admin-messages"));
+
+        if (!review.getUserId().equals(userId) && !isAdmin) {
             throw new UnauthorizedException("User is not authorized to delete this review");
         }
+
         reviewsRepository.deleteById(reviewId);
     }
 
