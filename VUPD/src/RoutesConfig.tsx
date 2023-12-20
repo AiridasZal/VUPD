@@ -13,6 +13,8 @@ import CourseDetailPage from "./pages/CourseDetailPage";
 import CourseReviewPage from "./pages/CourseReviewPage";
 import CourseSelectPage from "./pages/CourseSelectPage";
 import ErrorPage from "./pages/ErrorPage";
+import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
 import FacultySelectPage from "./pages/FacultySelectPage";
 import ProgramSelectPage from "./pages/ProgramSelectPage";
 import PublicPage from "./pages/PublicPage";
@@ -58,6 +60,14 @@ const RoutesConfig = () => {
           element={<CourseReviewPage />}
         />
         <Route path="profile" element={<ProfilePage />} />
+        <Route
+          path="about"
+          element={<AboutPage />}
+        />
+        <Route
+          path="contact"
+          element={<ContactPage />}
+        />
         {/* Uncomment and add other routes as needed */}
         {/* <Route path="about" element={<AboutPage />} />
       <Route path="contact" element={<ContactPage />} />

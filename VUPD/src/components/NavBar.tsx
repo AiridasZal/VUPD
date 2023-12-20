@@ -68,7 +68,7 @@ const NavBar = () => {
             <Button as={Link} to="/about" variant="ghost">
               About
             </Button>
-            <Button as={Link} to="/courses" variant="ghost">
+            <Button as={Link} to="/browse" variant="ghost">
               Courses
             </Button>
             <Button as={Link} to="/contact" variant="ghost">
