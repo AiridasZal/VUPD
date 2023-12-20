@@ -3,6 +3,7 @@
 # This file is expected to be part of source control.
 ch.qos.logback:logback-classic:1.4.11=compileClasspath,productionRuntimeClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
 ch.qos.logback:logback-core:1.4.11=compileClasspath,productionRuntimeClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
+com.auth0:java-jwt:4.4.0=compileClasspath,productionRuntimeClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
 com.fasterxml.jackson.core:jackson-annotations:2.15.3=compileClasspath,productionRuntimeClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
 com.fasterxml.jackson.core:jackson-core:2.15.3=compileClasspath,productionRuntimeClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
 com.fasterxml.jackson.core:jackson-databind:2.15.3=compileClasspath,productionRuntimeClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
@@ -48,6 +49,7 @@ net.minidev:accessors-smart:2.5.0=compileClasspath,productionRuntimeClasspath,ru
 net.minidev:json-smart:2.5.0=compileClasspath,productionRuntimeClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
 net.sf.saxon:Saxon-HE:11.3=checkstyle
 org.antlr:antlr4-runtime:4.10.1=checkstyle
+org.apache.commons:commons-lang3:3.13.0=compileClasspath,productionRuntimeClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
 org.apache.httpcomponents:httpclient:4.5.13=checkstyle
 org.apache.httpcomponents:httpcore:4.4.16=checkstyle
 org.apache.logging.log4j:log4j-api:2.21.1=compileClasspath,productionRuntimeClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath

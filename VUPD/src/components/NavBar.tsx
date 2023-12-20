@@ -20,6 +20,7 @@ import ColorModeSwitch from "./ColorModeSwitch";
 import LoginButton from "./LoginButton";
 import LogoutButton from "./LogOutButton";
 import { useAuth0 } from "@auth0/auth0-react";
+import AdminButton from "./AdminButton";
 
 const NavBar = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -73,6 +74,7 @@ const NavBar = () => {
             <Button as={Link} to="/contact" variant="ghost">
               Contact
             </Button>
+            <AdminButton />
           </Stack>
         </Flex>
         {/* Color Mode Switch */}
