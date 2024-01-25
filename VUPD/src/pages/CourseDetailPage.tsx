@@ -61,7 +61,7 @@ const CourseDetailPage = () => {
   const queryClient = useQueryClient();
   const axiosInstance = useAxios();
 
-  const reportReview = async (reviewId, reason) => {
+  const reportReview = async (reviewId: string, reason: string) => {
     const response = await axiosInstance.post(
       `/reports/report-review/${reviewId}`,
       { reason }
@@ -69,7 +69,7 @@ const CourseDetailPage = () => {
     return response.data;
   };
 
-  const handleReport = async (reviewId, reason) => {
+  const handleReport = async (reviewId: string, reason: string) => {
     try {
       await reportReview(reviewId, reason);
       setSelectedReviewIdForReport("");

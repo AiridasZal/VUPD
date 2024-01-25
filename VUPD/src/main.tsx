@@ -9,7 +9,14 @@ import { BrowserRouter } from "react-router-dom";
 import RoutesConfig from "./RoutesConfig";
 import { Auth0ProviderWithNavigate } from "./context/auth0provider";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 10,
+      gcTime: 1000 * 60 * 15,
+    },
+  },
+});
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
